@@ -1,0 +1,186 @@
+/* Tailwind component utilities; custom properties remain shared design tokens. */
+/* ────────── floating dropdown stays visible above scrollable tables and dialogs ────────── */
+.search-select {
+  @apply [display:block];
+  @apply [position:relative];
+  @apply [min-width:0];
+  @apply [width:100%];
+  @apply [font-weight:normal];
+  @apply [text-align:left];
+}
+.search-select-trigger {
+  @apply [width:100%];
+  @apply [min-height:40px];
+  @apply ![display:flex];
+  @apply ![justify-content:space-between];
+  @apply [align-items:center];
+  @apply [gap:10px];
+  @apply [background:var(--panel,_#20202f)];
+  @apply [color:var(--text,_#f3f3f8)];
+  @apply [border:1px_solid_var(--border,_var(--line,_#323245))];
+  @apply [border-radius:7px];
+  @apply [padding:11px_13px];
+  @apply [font:inherit];
+  @apply [font-size:13px];
+  @apply [text-align:left];
+  @apply [line-height:1.6];
+}
+.search-select-trigger > span {
+  @apply [overflow:hidden];
+  @apply [text-overflow:ellipsis];
+  @apply [white-space:nowrap];
+  @apply [min-width:0];
+  @apply [flex:1];
+}
+.search-select-trigger > svg {
+  @apply [flex-shrink:0];
+  @apply [color:var(--muted,_#9595ac)];
+}
+.search-select-trigger:focus-visible,
+.search-select-trigger[aria-expanded="true"] {
+  @apply [outline:2px_solid_var(--green,_#19c396)];
+  @apply [outline-offset:1px];
+}
+.search-select-placeholder {
+  @apply [color:var(--muted,_#9595ac)];
+}
+label > .search-select {
+  @apply [margin-top:7px];
+}
+.search-select-popup {
+  @apply [position:fixed];
+  @apply [z-index:2000];
+  @apply [display:flex];
+  @apply [flex-direction:column];
+  @apply [overflow:hidden];
+  @apply [border:1px_solid_#45455b];
+  @apply [border-radius:12px];
+  @apply [box-shadow:0_16px_45px_#0009];
+  @apply [background:var(--panel,_#20202f)];
+  @apply [color:var(--text,_#f3f3f8)];
+  @apply [text-align:left];
+  @apply [font-family:inherit];
+  @apply [isolation:isolate];
+}
+.search-select-search {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [gap:7px];
+  @apply [padding:10px];
+  @apply [border-bottom:1px_solid_var(--border,_var(--line,_#323245))];
+  @apply [flex-shrink:0];
+  @apply [color:var(--muted,_#9595ac)];
+}
+.search-select-search input {
+  @apply ![width:100%];
+  @apply [min-width:0];
+  @apply ![margin:0];
+  @apply ![border:0];
+  @apply [border-radius:0];
+  @apply ![background:transparent];
+  @apply [color:var(--text,_#f3f3f8)];
+  @apply ![padding:4px];
+  @apply ![box-shadow:none];
+  @apply ![outline:none];
+  @apply [font:inherit];
+  @apply [font-size:13px];
+  @apply [height:30px];
+}
+.search-select-search button {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [justify-content:center];
+  @apply [background:transparent];
+  @apply [color:inherit];
+  @apply [width:28px];
+  @apply [height:28px];
+  @apply [flex-shrink:0];
+  @apply [border:0];
+  @apply [border-radius:5px];
+}
+.search-select-options {
+  @apply [overflow:auto];
+  @apply [overscroll-behavior:contain];
+  @apply [min-height:0];
+  @apply [flex:1];
+}
+.search-select-options > button {
+  @apply [display:flex];
+  @apply [width:100%];
+  @apply [justify-content:space-between];
+  @apply [align-items:center];
+  @apply [gap:9px];
+  @apply [min-height:40px];
+  @apply [padding:10px_12px];
+  @apply [background:transparent];
+  @apply [border:0];
+  @apply [color:var(--text,_#f3f3f8)];
+  @apply [text-align:left];
+  @apply [font:inherit];
+  @apply [font-size:13px];
+  @apply [line-height:1.7];
+  @apply [border-radius:0];
+}
+.search-select-options > button > span {
+  @apply [min-width:0];
+  @apply [overflow-wrap:anywhere];
+}
+.search-select-options > button > svg {
+  @apply [flex-shrink:0];
+  @apply [color:var(--green,_#19c396)];
+}
+.search-select-options > button.is-highlighted {
+  @apply [background:#19c3961f];
+}
+.search-select-options > button[aria-selected="true"] {
+  @apply [color:var(--green,_#19c396)];
+  @apply [background:#19c39612];
+}
+.search-select-options > button:disabled {
+  @apply [opacity:0.4];
+  @apply [cursor:not-allowed];
+}
+.search-select-count {
+  @apply [padding:7px_12px];
+  @apply [font-size:10px];
+  @apply [color:var(--muted,_#9595ac)];
+  @apply [border-top:1px_solid_var(--border,_var(--line,_#323245))];
+  @apply [flex-shrink:0];
+}
+.search-select-empty {
+  @apply [padding:22px_12px];
+  @apply [text-align:center];
+  @apply [font-size:12px];
+  @apply [line-height:1.8];
+  @apply [color:var(--muted,_#9595ac)];
+}
+.search-select-error {
+  @apply [color:#f08e9a];
+  @apply [font-size:11px];
+  @apply [display:block];
+  @apply [margin-top:4px];
+}
+.filters > .search-select {
+  @apply [width:auto];
+  @apply [min-width:155px];
+  @apply [max-width:280px];
+}
+.inventory-link-add > .search-select {
+  @apply [flex:1];
+}
+.inventory-linked-items .search-select {
+  @apply [min-width:160px];
+}
+.table-scroll td .search-select {
+  @apply [min-width:150px];
+}
+.menu-import-settings .search-select {
+  @apply [min-width:180px];
+}
+
+/* Linked-item controls must fit the existing narrow stock form rows. */
+.form-grid > label, .form-grid > div { @apply [min-width:0]; }
+.inventory-linked-items > div { @apply [flex-wrap:wrap]; }
+.inventory-linked-items > div > span { @apply [min-width:80px]; @apply [overflow-wrap:anywhere]; }
+.inventory-linked-items label { @apply [width:180px]; @apply [max-width:calc(100%_-_40px)]; @apply [flex-shrink:0]; }
+.inventory-linked-items .search-select { @apply [min-width:0]; }

@@ -1,0 +1,609 @@
+/* Tailwind component utilities; custom properties remain shared design tokens. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* ────────── native Alpine colors and compact, touch-friendly browser layout ────────── */
+:root {
+  @apply [color-scheme:dark];
+  --bg: #14141f;
+  --panel: #20202f;
+  --raised: #29293b;
+  --line: #323245;
+  --text: #f3f3f8;
+  --muted: #9595ac;
+  --green: #19c396;
+}
+* {
+  @apply [box-sizing:border-box];
+}
+body {
+  @apply [margin:0];
+  @apply [background:#101019];
+  @apply [color:var(--text)];
+  @apply [font-family:"Nirmala_UI",_"Noto_Sans_Bengali",_"Segoe_UI",_sans-serif];
+  @apply [-webkit-font-smoothing:antialiased];
+}
+button,
+input,
+select,
+textarea {
+  @apply [font:inherit];
+}
+button {
+  @apply [cursor:pointer];
+}
+button:disabled {
+  @apply [cursor:not-allowed];
+  @apply [opacity:0.45];
+}
+button:focus-visible,
+a:focus-visible {
+  @apply [outline:2px_solid_var(--green)];
+  @apply [outline-offset:3px];
+}
+input,
+select,
+textarea {
+  @apply [width:100%];
+  @apply [background:var(--raised)];
+  @apply [border:1px_solid_var(--line)];
+  @apply [border-radius:10px];
+  @apply [padding:12px_13px];
+  @apply [color:var(--text)];
+  @apply [font-size:14px];
+  @apply [outline:none];
+}
+input:focus,
+textarea:focus,
+select:focus {
+  @apply [border-color:var(--green)];
+  @apply [box-shadow:0_0_0_2px_#19c39618];
+}
+input::placeholder,
+textarea::placeholder {
+  @apply [color:var(--muted)];
+}
+label {
+  @apply [display:block];
+  @apply [font-size:12px];
+  @apply [line-height:1.7];
+  @apply [color:var(--muted)];
+}
+label > input,
+label > select,
+label > textarea,
+label > .relative {
+  @apply [margin-top:7px];
+}
+label + .label {
+  @apply [margin-top:15px];
+}
+textarea {
+  @apply [resize:vertical];
+}
+input[type="checkbox"] {
+  @apply [width:17px];
+  @apply [height:17px];
+  @apply [accent-color:var(--green)];
+  @apply [padding:0];
+  @apply [margin:0];
+}
+.check {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [gap:8px];
+}
+small {
+  @apply [font-size:11px];
+}
+.muted {
+  @apply [color:var(--muted)];
+}
+.eyebrow {
+  @apply [color:var(--green)];
+  @apply [font-size:10px];
+  @apply [font-weight:700];
+  @apply [letter-spacing:2px];
+  @apply [margin-bottom:10px];
+}
+.card {
+  @apply [background:var(--panel)];
+  @apply [border:1px_solid_var(--line)];
+  @apply [border-radius:16px];
+  @apply [padding:17px];
+}
+.primary,
+.secondary {
+  @apply [display:inline-flex];
+  @apply [justify-content:center];
+  @apply [align-items:center];
+  @apply [gap:8px];
+  @apply [min-height:44px];
+  @apply [padding:11px_15px];
+  @apply [border-radius:10px];
+  @apply [font-size:13px];
+  @apply [font-weight:700];
+  @apply [border:1px_solid_transparent];
+}
+.primary {
+  @apply [background:var(--green)];
+  @apply [color:#101e1b];
+}
+.primary:hover:not(:disabled) {
+  @apply [background:#2cd7aa];
+}
+.secondary {
+  @apply [background:var(--panel)];
+  @apply [border-color:var(--line)];
+  @apply [color:var(--text)];
+}
+.icon {
+  @apply [height:36px];
+  @apply [width:36px];
+  @apply [display:inline-flex];
+  @apply [align-items:center];
+  @apply [justify-content:center];
+  @apply [color:var(--muted)];
+  @apply [flex-shrink:0];
+  @apply [border-radius:9px];
+}
+.icon:hover {
+  @apply [color:var(--text)];
+  @apply [background:var(--raised)];
+}
+.page {
+  @apply [padding:22px_20px_30px];
+}
+.page-title h1 {
+  @apply [font-size:29px];
+  @apply [line-height:1.45];
+  @apply [letter-spacing:-0.6px];
+  @apply [font-weight:700];
+  @apply [margin:0];
+}
+.empty {
+  @apply [padding:40px_16px];
+  @apply [text-align:center];
+  @apply [color:var(--muted)];
+  @apply [line-height:1.9];
+}
+.empty p {
+  @apply [color:var(--text)];
+  @apply [font-size:16px];
+}
+.empty small {
+  @apply [display:block];
+  @apply [margin-top:8px];
+}
+.notice {
+  @apply [border:1px_solid_#715b36];
+  @apply [background:#49351e66];
+  @apply [padding:13px];
+  @apply [border-radius:10px];
+  @apply [color:#f0d6a3];
+  @apply [font-size:12px];
+  @apply [line-height:1.9];
+}
+.error-text {
+  @apply [font-size:13px];
+  @apply [color:#f08e9a];
+  @apply [line-height:1.8];
+  @apply [margin-top:12px];
+}
+.app-shell {
+  @apply [width:100%];
+  @apply [max-width:1000px];
+  @apply [height:100dvh];
+  @apply [margin:auto];
+  @apply [display:flex];
+  @apply [flex-direction:column];
+  @apply [background:var(--bg)];
+  @apply [border-left:1px_solid_#ffffff05];
+  @apply [border-right:1px_solid_#ffffff05];
+  @apply [overflow:hidden];
+}
+.app-header {
+  @apply [display:flex];
+  @apply [justify-content:space-between];
+  @apply [align-items:center];
+  @apply [gap:10px];
+  @apply [padding:15px_20px];
+  @apply [border-bottom:1px_solid_var(--line)];
+  @apply [flex-shrink:0];
+  @apply [background:var(--bg)];
+  @apply [padding-top:max(15px,_env(safe-area-inset-top))];
+}
+.screen-area {
+  @apply [flex:1];
+  @apply [min-height:0];
+  @apply [overflow:auto];
+  @apply [overscroll-behavior:contain];
+}
+.app-error {
+  @apply [padding:10px_15px];
+  @apply [background:#49351e];
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [gap:10px];
+  @apply [color:#f0d6a3];
+  @apply [font-size:12px];
+  @apply [line-height:1.8];
+  @apply [flex-shrink:0];
+}
+.app-error p {
+  @apply [flex:1];
+}
+.bottom-nav {
+  @apply [display:flex];
+  @apply [justify-content:space-around];
+  @apply [padding:7px_4px_max(8px,_env(safe-area-inset-bottom))];
+  @apply [border-top:1px_solid_var(--line)];
+  @apply [background:#1a1a28];
+  @apply [flex-shrink:0];
+}
+.bottom-nav > button {
+  @apply [display:flex];
+  @apply [flex:1];
+  @apply [min-width:0];
+  @apply [flex-direction:column];
+  @apply [align-items:center];
+  @apply [justify-content:center];
+  @apply [gap:5px];
+  @apply [min-height:61px];
+  @apply [color:var(--muted)];
+  @apply [font-size:12px];
+  @apply [border-radius:12px];
+  @apply [margin:0_2px];
+}
+.bottom-nav > button.active {
+  @apply [color:var(--green)];
+  @apply [background:#14362f];
+}
+.badge {
+  @apply [position:absolute];
+  @apply [top:-8px];
+  @apply [right:-10px];
+  @apply [min-width:17px];
+  @apply [height:17px];
+  @apply [padding:0_4px];
+  @apply [border-radius:12px];
+  @apply [background:#0ca680];
+  @apply [color:white];
+  @apply [font-size:9px];
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [justify-content:center];
+}
+.chips {
+  @apply [display:flex];
+  @apply [gap:6px];
+  @apply [overflow:auto];
+  @apply [white-space:nowrap];
+  @apply [padding-bottom:4px];
+  @apply [scrollbar-width:none];
+}
+.chips button {
+  @apply [border:1px_solid_var(--line)];
+  @apply [border-radius:20px];
+  @apply [background:var(--panel)];
+  @apply [color:var(--muted)];
+  @apply [font-size:12px];
+  @apply [padding:7px_12px];
+  @apply [flex-shrink:0];
+}
+.chips button.active {
+  @apply [background:var(--green)];
+  @apply [color:var(--bg)];
+  @apply [border-color:var(--green)];
+  @apply [font-weight:700];
+}
+.table-card {
+  @apply [min-height:175px];
+}
+.table-card.occupied {
+  @apply [border-color:#715c35];
+}
+.status-dot {
+  @apply [width:7px];
+  @apply [height:7px];
+  @apply [border-radius:50%];
+  @apply [background:var(--green)];
+}
+.status-dot.amber {
+  @apply [background:#eeb66b];
+}
+.pill {
+  @apply [padding:6px_10px];
+  @apply [border-radius:10px];
+  @apply [border:1px_solid];
+  @apply [white-space:nowrap];
+  @apply [font-size:11px];
+}
+.pill.green {
+  @apply [background:#123f3555];
+  @apply [border-color:#226b56];
+  @apply [color:#45d5ab];
+}
+.pill.amber {
+  @apply [background:#715c352f];
+  @apply [border-color:#715c35];
+  @apply [color:#eeb66b];
+}
+.login-wrap {
+  @apply [max-width:510px];
+  @apply [margin:auto];
+  @apply [padding:40px_25px_35px];
+  @apply [background:var(--bg)];
+  @apply [min-height:100dvh];
+}
+.login-title {
+  @apply [font-size:clamp(36px,_7vw,_48px)];
+  @apply [font-weight:750];
+  @apply [line-height:1.5];
+  @apply [letter-spacing:-1px];
+}
+.login-card {
+  @apply [margin-top:32px];
+  @apply [padding:24px_23px];
+  @apply [border-radius:23px];
+}
+.login-card > label {
+  @apply [margin-top:20px];
+  @apply [font-size:13px];
+}
+.password-toggle {
+  @apply [position:absolute];
+  @apply [right:12px];
+  @apply [top:50%];
+  @apply [transform:translateY(-50%)];
+  @apply [color:var(--muted)];
+  @apply [padding:5px];
+}
+.menu-screen {
+  @apply [height:100%];
+  @apply [display:flex];
+  @apply [flex-direction:column];
+  @apply [min-height:0];
+}
+.menu-top {
+  @apply [padding:3px_10px_0];
+  @apply [background:var(--bg)];
+  @apply [flex-shrink:0];
+}
+.search {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [gap:5px];
+  @apply [flex:1];
+  @apply [min-width:0];
+  @apply [background:var(--panel)];
+  @apply [border:1px_solid_var(--line)];
+  @apply [border-radius:9px];
+  @apply [padding-left:9px];
+  @apply [color:var(--muted)];
+  @apply [height:42px];
+}
+.search input {
+  @apply [border:0];
+  @apply [padding:6px_0];
+  @apply [background:none];
+  @apply [box-shadow:none];
+  @apply [font-size:12px];
+  @apply [min-width:0];
+}
+.voice-btn {
+  @apply [font-size:11px];
+  @apply [min-height:42px];
+  @apply [padding:6px_9px];
+  @apply [white-space:nowrap];
+}
+.chips.compact {
+  @apply [padding:7px_0];
+  @apply [gap:5px];
+}
+.chips.compact button {
+  @apply [font-size:11px];
+  @apply [padding:5px_10px];
+  @apply [min-height:31px];
+}
+.menu-list {
+  @apply [padding:1px_10px_12px];
+  @apply [flex:1];
+  @apply [min-height:0];
+  @apply [overflow:auto];
+}
+.menu-row {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [gap:7px];
+  @apply [min-height:64px];
+  @apply [padding:7px_8px];
+  @apply [background:var(--panel)];
+  @apply [border:1px_solid_var(--line)];
+  @apply [border-radius:10px];
+}
+.menu-row.selected {
+  @apply [background:#19302c];
+  @apply [border-color:var(--green)];
+}
+.food-name {
+  @apply [font-size:13px];
+  @apply [line-height:20px];
+  @apply [font-weight:600];
+}
+.code {
+  @apply [font-size:10px];
+  @apply [color:var(--muted)];
+}
+.english {
+  @apply [font-size:10px];
+  @apply [line-height:15px];
+  @apply [color:var(--muted)];
+}
+.price {
+  @apply [font-size:12px];
+  @apply [white-space:nowrap];
+  @apply [text-align:right];
+  @apply [min-width:40px];
+}
+.counter {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [gap:2px];
+  @apply [flex-shrink:0];
+}
+.counter button {
+  @apply [width:30px];
+  @apply [height:34px];
+  @apply [border-radius:7px];
+  @apply [background:var(--raised)];
+  @apply [font-size:21px];
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [justify-content:center];
+}
+.counter button.add {
+  @apply [background:var(--green)];
+  @apply [color:var(--bg)];
+  @apply [font-size:23px];
+}
+.counter span {
+  @apply [font-size:12px];
+  @apply [font-weight:600];
+  @apply [min-width:20px];
+  @apply [text-align:center];
+}
+.menu-footer {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [justify-content:space-between];
+  @apply [gap:6px];
+  @apply [padding:8px_12px_max(8px,_env(safe-area-inset-bottom))];
+  @apply [border-top:1px_solid_var(--line)];
+  @apply [background:var(--panel)];
+  @apply [flex-shrink:0];
+}
+.menu-footer .primary {
+  @apply [min-height:40px];
+  @apply [font-size:12px];
+}
+.serving-box {
+  @apply [padding:12px];
+  @apply [border:1px_solid_var(--line)];
+  @apply [border-radius:10px];
+  @apply [background:#14141f55];
+}
+.modal-backdrop {
+  @apply [position:fixed];
+  @apply [inset:0];
+  @apply [background:#080912c9];
+  @apply [backdrop-filter:blur(5px)];
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [justify-content:center];
+  @apply [padding:18px];
+  @apply [z-index:100];
+}
+.modal {
+  @apply [width:100%];
+  @apply [max-width:620px];
+  @apply [max-height:90dvh];
+  @apply [overflow:auto];
+  @apply [background:var(--panel)];
+  @apply [border:1px_solid_#414157];
+  @apply [border-radius:18px];
+  @apply [padding:20px];
+}
+.modal > header {
+  @apply [display:flex];
+  @apply [align-items:center];
+  @apply [justify-content:space-between];
+  @apply [gap:10px];
+  @apply [margin-bottom:17px];
+}
+.modal > header h2 {
+  @apply [font-size:19px];
+  @apply [font-weight:700];
+}
+@media (min-width: 768px) {
+  .login-wrap {
+    @apply [margin:32px_auto];
+    @apply [border:1px_solid_var(--line)];
+    @apply [border-radius:26px];
+    @apply [min-height:calc(100dvh_-_64px)];
+    @apply [padding:40px];
+  }
+  .page {
+    @apply [padding:28px_30px];
+  }
+  .app-header {
+    @apply [padding-left:30px];
+    @apply [padding-right:30px];
+  }
+  .menu-top {
+    @apply [padding:8px_20px_0];
+  }
+  .menu-list {
+    @apply [padding:1px_20px_15px];
+  }
+  .bottom-nav > button {
+    @apply [max-width:160px];
+  }
+  .menu-footer {
+    @apply [padding-left:24px];
+    @apply [padding-right:24px];
+  }
+  .food-name {
+    @apply [font-size:14px];
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    @apply ![animation-duration:0.01ms];
+    @apply ![scroll-behavior:auto];
+  }
+}
+
+/* ────────── consistent feedback, independent from screen layout ────────── */
+.smart-dialog { @apply fixed inset-0 m-auto w-[calc(100%-32px)] max-w-[400px] rounded-2xl border border-[#383849] bg-[#20202f] p-5 text-[#f3f3f8] shadow-2xl; }
+.smart-dialog::backdrop { @apply bg-black/65 backdrop-blur-sm; }
+.smart-dialog-heading { @apply flex items-center gap-3; }
+.smart-dialog-icon { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400; }
+.smart-dialog-icon.smart-danger { @apply bg-rose-500/10 text-rose-400; }
+.smart-dialog-heading small { @apply text-[9px] font-semibold tracking-widest text-emerald-400; }
+.smart-dialog-heading h2 { @apply m-0 mt-1 text-base font-semibold; }
+.smart-dialog-heading > button { @apply ml-auto rounded-lg p-2 text-slate-400 hover:bg-white/5; }
+.smart-dialog > p { @apply my-5 text-sm leading-7 text-slate-300; }
+.smart-dialog-actions { @apply flex justify-end gap-2 border-t border-white/10 pt-4; }
+.smart-dialog-actions button { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[#3d3d50] px-4 py-2 text-sm font-semibold; }
+.smart-dialog-actions .smart-confirm { @apply border-emerald-500 bg-emerald-500 text-[#08241d] hover:bg-emerald-400; }
+.smart-dialog-actions .smart-danger-button { @apply border-rose-500 bg-rose-500 text-white hover:bg-rose-400; }
+.smart-dialog button:focus-visible { @apply outline outline-2 outline-offset-2 outline-emerald-400; }
+.smart-toast-stack { @apply pointer-events-none fixed right-4 top-4 z-[10000] flex w-[calc(100%-32px)] max-w-[380px] flex-col gap-2 print:hidden; }
+.smart-toast { @apply pointer-events-auto flex items-start gap-3 rounded-xl border border-white/10 border-l-4 border-l-emerald-400 bg-[#242435] px-4 py-3 text-[#f3f3f8] shadow-xl; }
+.smart-toast > svg { @apply mt-0.5 shrink-0 text-emerald-400; }
+.smart-toast > p { @apply m-0 flex-1 text-[13px] leading-6; }
+.smart-toast > button { @apply shrink-0 rounded p-1 text-slate-400 hover:bg-white/10; }
+.smart-toast-error { @apply border-l-rose-400; }
+.smart-toast-error > svg { @apply text-rose-400; }
+.smart-toast-info { @apply border-l-sky-400; }
+.smart-toast-info > svg { @apply text-sky-400; }
+@media print { .smart-dialog { @apply hidden; } }
+
+/* ────────── compact login: prioritize the fields above decoration ────────── */
+.login-wrap { @apply mx-auto my-0 min-h-dvh max-w-[440px] rounded-none border-0 px-5 py-5; }
+.login-brand { @apply flex items-center gap-3; }
+.login-brand img { @apply h-12 w-12 shrink-0 rounded-xl; }
+.login-brand .eyebrow { @apply mb-1 text-[9px] tracking-widest; }
+.login-title { @apply text-[18px] font-bold leading-7 tracking-normal; }
+.login-caption { @apply mb-0 mt-3 text-xs leading-6 text-[#9595ac]; }
+.login-card { @apply mt-4 rounded-2xl p-4; }
+.login-card > label { @apply mt-3 text-xs; }
+.login-card input { @apply py-2.5 text-sm; }
+
+.compact-cart { @apply p-4; }
+.compact-cart h1 { @apply text-xl; }
+.compact-cart > .space-y-3 { @apply mt-3; }
+.compact-cart fieldset { @apply mt-3 space-y-2; }
+.compact-cart fieldset input,.compact-cart textarea { @apply py-2; }
+.compact-cart .card { @apply p-3; }

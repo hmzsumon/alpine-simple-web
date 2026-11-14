@@ -1,0 +1,3 @@
+/* ────────── simple edition has no kitchen actions or push setup ────────── */
+import type {Session,User,ServiceBatch,StaffNotification} from "../types";
+export function useOperations(_session:Session|null,_open:()=>void,_user:(u:User)=>void,_expired:()=>void){return {batches:[] as ServiceBatch[],notifications:[] as StaffNotification[],pending:null as {id:string;action:string;quantities?:number[]}|null,connected:false,busy:false,error:"",pushStatus:"",unread:0,refresh:async()=>{},perform:async(_id:string,_action:string,_quantities?:number[])=>{},read:async(_id:string)=>{},enablePush:async()=>{}};}
