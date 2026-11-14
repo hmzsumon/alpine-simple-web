@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 export const cookieName = "alpine_simple_waiter_session";
 export const apiBase = () =>
-  (process.env.WAITER_API_URL || "http://127.0.0.1:5100").replace(/\/+$/, "");
+  (process.env.WAITER_API_URL || "https://alpine-87e6611a0afd.herokuapp.com").replace(/\/+$/, "");
 export function sameOrigin(req: NextRequest) {
   const origin = req.headers.get("origin");
   return (
