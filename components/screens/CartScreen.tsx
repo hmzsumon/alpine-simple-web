@@ -22,7 +22,7 @@ export default function CartScreen() {
           (c.draft.orderId ? "আগের বিলে যোগ করুন" : "অর্ডার মিলিয়ে নিন")
         }
         title="আপনার কার্ট"
-        detail="খাবার, পরিমাণ ও এখানে খাবেন / পার্সেল মিলিয়ে তারপর অর্ডার জমা দিন।"
+        detail="খাবার, পরিমাণ ও এখানে খাবেন / পার্সেল মিলিয়ে তারপর বুকিং সেভ করুন।"
       />
       {c.pending && (
         <div className="notice my-4">
@@ -111,14 +111,15 @@ export default function CartScreen() {
             onClick={async () => {
               if (
                 c.pending ||
-                await confirmAction("খাবার ও পরিমাণ মিলিয়েছেন? অর্ডার জমা দেবেন?")
+                await confirmAction("খাবার ও পরিমাণ মিলিয়েছেন? বুকিং সেভ করবেন?")
               )
                 void c.send();
             }}
           >
             <Send size={18} />
-            {c.pending ? "সেভ করা অর্ডার আবার পাঠান" : "অর্ডার জমা দিন"}
+            {c.pending ? "সেভ করা অর্ডার আবার পাঠান" : "বুকিং সেভ করুন"}
           </Button>
+          {!c.pending&&<Button secondary className="w-full mt-3" busy={c.busy} onClick={async()=>{if(await confirmAction("ফাইনাল করার পরে আর খাবার বদলানো যাবে না। পাঠাবেন?"))void c.send(true);}}>খাওয়া শেষ — ফাইনাল করে ক্যাশিয়ারে পাঠান</Button>}
           <p className="muted flex items-center justify-center gap-2 text-xs mt-3">
             <ShieldCheck size={14} />
             পাঠানোর আগে সেভ হয় · একই অনুরোধ দুবার নয়

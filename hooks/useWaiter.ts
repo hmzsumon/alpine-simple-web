@@ -201,7 +201,7 @@ export function useWaiter() {
         salesChannel:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.salesChannel:salesChannel||(table.id==="PARCEL"?"takeaway":"dine_in"),
         externalOrderId:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.externalOrderId:undefined,
         orderType: table.id === "PARCEL" ? "takeaway" : "dine_in",
-        items: [],
+        bookingRevision:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.bookingRevision:undefined,items: orderId&&bootstrap?.orders.find(o=>o.id===orderId)?.bookingState==="booking"?bootstrap.orders.find(o=>o.id===orderId)!.items:[],
         note: "",
       });
       setFulfillment(table.id === "PARCEL" ? "parcel" : "dine_in");
@@ -298,7 +298,7 @@ export function useWaiter() {
   };
 
   /* ────────── persist before sending, then retry exactly the same request ────────── */
-  async function send() {
+  async function send(finalize=false) {
     if(!pending && draft.salesChannel==="foodpanda" && !draft.externalOrderId?.trim()){setError("ফুডপান্ডার আসল অর্ডার নম্বর লিখুন।");return;}
     if (!session || busy || sendingRef.current || !draft.items.length) return;
     sendingRef.current = true;
@@ -310,7 +310,7 @@ export function useWaiter() {
         : "/api/waiter/orders",
       body: {
         orderEpoch: bootstrap?.orderEpoch || 0,
-        requestId: uuid(),
+        booking:true,finalize,bookingRevision:draft.bookingRevision,requestId: uuid(),
         table: draft.table,
         counterId:draft.counterId||bootstrap?.counter?.id||"main",orderType: draft.orderType || "dine_in", salesChannel:draft.salesChannel,externalOrderId:draft.externalOrderId,
         customerName: draft.customerName || "",
@@ -341,7 +341,7 @@ export function useWaiter() {
       setDraft(EMPTY_DRAFT);
       setPending(null);
       setPage("receipt");
-      notify("অর্ডারটি ক্যাশ কাউন্টারে জমা হয়েছে।");
+      notify(result.order.bookingState==="booking"?"বুকিং সেভ হয়েছে। নতুন অর্ডার নিতে পারবেন।":"অর্ডার ফাইনাল করে ক্যাশিয়ারের কাছে পাঠানো হয়েছে।");
       void refresh(undefined, session);
     } catch (problem) {
       if (

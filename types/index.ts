@@ -47,6 +47,7 @@ export interface OrderLine {
   note?: string;
 }
 export interface Order {
+ bookingState?:"booking"|"final";bookingRevision?:number;
   simpleCounterId?:string;hallId?:string;hallName?:string;tableName?:string;
   salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;simpleBillNo?:string;
   orderType?: "dine_in" | "takeaway";
@@ -89,6 +90,7 @@ export interface Bootstrap {
   orders: Order[];
 }
 export interface Draft {
+ bookingRevision?:number;
   counterId?:string;
   salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;simpleBillNo?:string;
   orderType?: "dine_in" | "takeaway";
@@ -104,7 +106,7 @@ export interface Pending {
   path: string;
   body: {
     salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;
-    orderEpoch?: number;
+    booking?:boolean;finalize?:boolean;bookingRevision?:number;orderEpoch?: number;
     counterId?:string;requestId: string;
     orderType?: "dine_in" | "takeaway";
     customerName?: string;
