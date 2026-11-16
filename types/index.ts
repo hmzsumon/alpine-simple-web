@@ -47,7 +47,7 @@ export interface OrderLine {
   note?: string;
 }
 export interface Order {
-  simpleCounterId?:string;hallId?:string;hallName?:string;
+  simpleCounterId?:string;hallId?:string;hallName?:string;tableName?:string;
   salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;simpleBillNo?:string;
   orderType?: "dine_in" | "takeaway";
   parcelToken?: string;

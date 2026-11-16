@@ -1,5 +1,7 @@
-/* ── Screen: compact native menu; code, Bangla, English and Bengali voice search ── */
 "use client";
+import {tableLabel} from "@/utils/halls";
+/* ── Screen: compact native menu; code, Bangla, English and Bengali voice search ── */
+
 import { useState } from "react";
 import { ArrowLeft, Search, Mic, ShoppingCart } from "lucide-react";
 import { useWaiterContext } from "@/context/WaiterContext";
@@ -53,7 +55,7 @@ export default function MenuScreen() {
           </button>
           <h1 className="font-bold text-base">খাবার</h1>
           <span className="ml-auto text-alpine text-xs">
-            {c.draft.table === "PARCEL" ? "পার্সেল" : c.draft.table==="WALK-IN"?"নতুন অর্ডার":c.draft.table}
+            {c.draft.table === "PARCEL" ? "পার্সেল" : c.draft.table==="WALK-IN"?"নতুন অর্ডার":tableLabel(c.draft.table,c.bootstrap?.tables)}
             {c.draft.orderId ? " · অতিরিক্ত" : ""}
           </span>
         </div>
@@ -192,3 +194,4 @@ export default function MenuScreen() {
     </section>
   );
 }
+

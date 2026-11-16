@@ -1,4 +1,6 @@
 "use client";
+import {tableLabel} from "@/utils/halls";
+
 import {confirmAction} from "@/lib/feedback";
 import { Send, ShieldCheck } from "lucide-react";
 import { useWaiterContext } from "@/context/WaiterContext";
@@ -15,7 +17,7 @@ export default function CartScreen() {
         eyebrow={
           (c.draft.table === "PARCEL"
             ? "শুধু পার্সেল"
-            : (c.draft.table==="WALK-IN"?"সাধারণ অর্ডার":c.draft.table) || "অর্ডার শুরু করুন") +
+            : (c.draft.table==="WALK-IN"?"সাধারণ অর্ডার":tableLabel(c.draft.table,c.bootstrap?.tables)) || "অর্ডার শুরু করুন") +
           " · " +
           (c.draft.orderId ? "আগের বিলে যোগ করুন" : "অর্ডার মিলিয়ে নিন")
         }
@@ -134,3 +136,4 @@ export default function CartScreen() {
     </section>
   );
 }
+

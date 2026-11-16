@@ -1,4 +1,6 @@
 "use client";
+import {tableLabel} from "@/utils/halls";
+
 import { ChevronRight } from "lucide-react";
 import { useWaiterContext } from "@/context/WaiterContext";
 import { statusLabel, bnDigits } from "@/utils/menuNames";
@@ -21,7 +23,7 @@ export default function OrdersScreen() {
             onClick={() => void c.openReceipt(o.id)}
           >
             <div className="flex justify-between items-center">
-              <strong className="text-2xl">{o.parcelToken || (o.table==="WALK-IN"?(o.simpleBillNo||"অর্ডার"):o.table)}</strong>
+              <strong className="text-2xl">{o.parcelToken || (o.table==="WALK-IN"?(o.simpleBillNo||"অর্ডার"):tableLabel(o.table,c.bootstrap?.tables,o))}</strong>
               <span
                 className={"pill " + (o.status === "Ready" ? "green" : "amber")}
               >
@@ -62,3 +64,4 @@ export default function OrdersScreen() {
     </section>
   );
 }
+
