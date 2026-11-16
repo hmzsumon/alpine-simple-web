@@ -9,7 +9,7 @@ export default function OrdersScreen() {
   return (
     <section className="page">
       <Title
-        eyebrow="সব টেবিলের খবর"
+        eyebrow="আপনার অর্ডারের খবর"
         title="অর্ডারের তালিকা"
         detail="অর্ডার ও বিলের অবস্থা দেখুন।"
       />
@@ -21,7 +21,7 @@ export default function OrdersScreen() {
             onClick={() => void c.openReceipt(o.id)}
           >
             <div className="flex justify-between items-center">
-              <strong className="text-2xl">{o.parcelToken || o.table}</strong>
+              <strong className="text-2xl">{o.parcelToken || (o.table==="WALK-IN"?(o.simpleBillNo||"অর্ডার"):o.table)}</strong>
               <span
                 className={"pill " + (o.status === "Ready" ? "green" : "amber")}
               >

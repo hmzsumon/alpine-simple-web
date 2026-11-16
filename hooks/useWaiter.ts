@@ -70,6 +70,7 @@ export function useWaiter() {
       if (!pendingRef.current)
         setDraft((current) => ({
           ...current,
+          table:current.table&&current.table!=="PARCEL"&&!current.orderId?"WALK-IN":current.table,
           items: current.items.map((line) => {
             const item = data.menu.find((row) => row.id === line.menuId);
             return item
@@ -189,7 +190,7 @@ export function useWaiter() {
     if (pending) {
       setPage("cart");
       setError(
-        "Resolve the pending order request before starting another table.",
+        "Resolve the pending order request before starting another order.",
       );
       return;
     }
@@ -213,7 +214,7 @@ export function useWaiter() {
       (draft.table !== table.id || draft.orderId !== orderId || (!!salesChannel&&draft.salesChannel!==salesChannel))
     ) {
       Alert.alert(
-        "টেবিল বদলাবেন?",
+        "নতুন অর্ডার শুরু করবেন?",
         "এখনও না পাঠানো খাবারের তালিকা মুছে যাবে।",
         [
           { text: "আগের তালিকা রাখুন", style: "cancel" },
@@ -233,7 +234,7 @@ export function useWaiter() {
   ) {
     if (pending || busy) return;
     if (!draft.table) {
-      setError("Choose a table first");
+      setError("Start a new order first");
       setPage("tables");
       return;
     }
@@ -390,7 +391,7 @@ export function useWaiter() {
   function navigate(next: Page) {
     if ((next === "menu" || next === "cart") && !draft.table) {
       setPage("tables");
-      setError("Choose a table to start an order");
+      setError("Start a new order to choose food");
       return;
     }
     if (next === "menu" && page !== "menu") menuReturn.current = page;

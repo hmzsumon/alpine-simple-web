@@ -71,6 +71,7 @@ export interface Table {
   orders: { id: string; waiter: string; status: string; total: number }[];
 }
 export interface Bootstrap {
+  tableSelectionRequired?:boolean;
   counter?:{id:string;name:string;code:string};cashDayOpen?:boolean;
   orderEpoch?: number;
   unavailableMenu?: (Omit<MenuItem, "price"> & { price: number | null })[];

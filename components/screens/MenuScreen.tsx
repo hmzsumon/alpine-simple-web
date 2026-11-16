@@ -53,7 +53,7 @@ export default function MenuScreen() {
           </button>
           <h1 className="font-bold text-base">খাবার</h1>
           <span className="ml-auto text-alpine text-xs">
-            {c.draft.table === "PARCEL" ? "পার্সেল" : c.draft.table}
+            {c.draft.table === "PARCEL" ? "পার্সেল" : c.draft.table==="WALK-IN"?"নতুন অর্ডার":c.draft.table}
             {c.draft.orderId ? " · অতিরিক্ত" : ""}
           </span>
         </div>

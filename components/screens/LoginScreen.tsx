@@ -12,7 +12,7 @@ export default function LoginScreen() {
   return (
     <main className="login-wrap">
       <header className="login-brand"><img src="/alpine-logo.png" alt="Alpine Restaurant" width={48} height={48}/><div><p className="eyebrow">ALPINE RESTAURANT</p><h1 className="login-title">আপনার দায়িত্বে সুন্দর সেবা।</h1></div></header>
-      <p className="login-caption">টেবিল অনুযায়ী অর্ডার নিন, ক্যাশ কাউন্টারে জমা দিন।</p>
+      <p className="login-caption">খাবারের অর্ডার নিন, ক্যাশ কাউন্টারে জমা দিন।</p>
       <form
         className="card login-card"
         onSubmit={(e) => {

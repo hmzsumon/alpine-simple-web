@@ -15,7 +15,7 @@ export default function CartScreen() {
         eyebrow={
           (c.draft.table === "PARCEL"
             ? "শুধু পার্সেল"
-            : c.draft.table || "টেবিল বাছাই করুন") +
+            : (c.draft.table==="WALK-IN"?"সাধারণ অর্ডার":c.draft.table) || "অর্ডার শুরু করুন") +
           " · " +
           (c.draft.orderId ? "আগের বিলে যোগ করুন" : "অর্ডার মিলিয়ে নিন")
         }
