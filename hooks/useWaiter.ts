@@ -70,7 +70,6 @@ export function useWaiter() {
       if (!pendingRef.current)
         setDraft((current) => ({
           ...current,
-          table:current.table&&current.table!=="PARCEL"&&!current.orderId?"WALK-IN":current.table,
           items: current.items.map((line) => {
             const item = data.menu.find((row) => row.id === line.menuId);
             return item
@@ -197,7 +196,7 @@ export function useWaiter() {
     menuReturn.current = "tables";
     const select = () => {
       setDraft({
-        table: table.id,
+        counterId:(orderId?bootstrap?.orders.find(o=>o.id===orderId)?.simpleCounterId:undefined)||table.counterId||bootstrap?.counter?.id,table: table.id,
         orderId,
         salesChannel:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.salesChannel:salesChannel||(table.id==="PARCEL"?"takeaway":"dine_in"),
         externalOrderId:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.externalOrderId:undefined,
@@ -313,7 +312,7 @@ export function useWaiter() {
         orderEpoch: bootstrap?.orderEpoch || 0,
         requestId: uuid(),
         table: draft.table,
-        counterId:bootstrap?.counter?.id||"main",orderType: draft.orderType || "dine_in", salesChannel:draft.salesChannel,externalOrderId:draft.externalOrderId,
+        counterId:draft.counterId||bootstrap?.counter?.id||"main",orderType: draft.orderType || "dine_in", salesChannel:draft.salesChannel,externalOrderId:draft.externalOrderId,
         customerName: draft.customerName || "",
         customerPhone: draft.customerPhone || "",
         packingCharge: draft.packingCharge || 0,

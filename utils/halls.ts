@@ -1,0 +1,1 @@
+export function hallLabel(name:string){const labels:Record<string,string>={"Ground Hall":"গ্রাউন্ড হল","Gents Hall":"জেন্টস হল","Family Hall":"ফ্যামিলি হল","Party Hall":"পার্টি হল"};return labels[name]||name;}

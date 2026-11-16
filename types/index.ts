@@ -47,6 +47,7 @@ export interface OrderLine {
   note?: string;
 }
 export interface Order {
+  simpleCounterId?:string;hallId?:string;hallName?:string;
   salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;simpleBillNo?:string;
   orderType?: "dine_in" | "takeaway";
   parcelToken?: string;
@@ -63,14 +64,16 @@ export interface Order {
   items: OrderLine[];
 }
 export interface Table {
+  hallId?:string;hallName?:string;counterId?:string;counterName?:string;counterOpen?:boolean;openBillCount?:number;
   name?: string;
   id: string;
   floor: string;
   seats: number;
   occupied: boolean;
-  orders: { id: string; waiter: string; status: string; total: number }[];
+  orders: { id: string; waiter: string; status: string; total: number;simpleBillNo?:string }[];
 }
 export interface Bootstrap {
+  halls?:{id:string;name:string;floor:string;counterId?:string;operatingCounterId?:string}[];
   tableSelectionRequired?:boolean;
   counter?:{id:string;name:string;code:string};cashDayOpen?:boolean;
   orderEpoch?: number;
@@ -86,6 +89,7 @@ export interface Bootstrap {
   orders: Order[];
 }
 export interface Draft {
+  counterId?:string;
   salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;simpleBillNo?:string;
   orderType?: "dine_in" | "takeaway";
   customerName?: string;
