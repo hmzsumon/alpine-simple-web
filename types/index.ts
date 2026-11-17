@@ -4,7 +4,7 @@ export type Page =
   | "tables"
   | "menu"
   | "cart"
-  | "orders"
+  | "orders" | "bookings"
   | "receipt"
   | "operations"
   | "notifications";
@@ -106,7 +106,7 @@ export interface Pending {
   path: string;
   body: {
     salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;
-    booking?:boolean;finalize?:boolean;bookingRevision?:number;orderEpoch?: number;
+    booking?:boolean;finalize?:boolean;cancelBooking?:boolean;bookingRevision?:number;orderEpoch?: number;
     counterId?:string;requestId: string;
     orderType?: "dine_in" | "takeaway";
     customerName?: string;

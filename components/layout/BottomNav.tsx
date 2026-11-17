@@ -13,7 +13,7 @@ export default function BottomNav() {
     operator =
       c.session?.user.mobileMode === "operator" ||
       c.session?.user.role === "kitchen";
-  const tabs: {key:Page;label:string;icon:typeof Bell}[]=[{key:"tables",label:c.session?.user.permissions.includes("orders:parcel")?"হল ও পার্সেল":"হল ও টেবিল",icon:LayoutGrid},{key:"cart",label:"কার্ট",icon:ShoppingCart},{key:"orders",label:"অর্ডার",icon:ClipboardList}];
+  const tabs: {key:Page;label:string;icon:typeof Bell}[]=[{key:"tables",label:c.session?.user.permissions.includes("orders:parcel")?"হল ও পার্সেল":"হল ও টেবিল",icon:LayoutGrid},{key:"cart",label:"কার্ট",icon:ShoppingCart},{key:"bookings",label:"বুকিং",icon:ClipboardList},{key:"orders",label:"অর্ডার",icon:ClipboardList}];
   return (
     <nav className="bottom-nav" aria-label="প্রধান মেনু">
       {tabs.map((t) => {

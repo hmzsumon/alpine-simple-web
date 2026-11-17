@@ -607,3 +607,6 @@ small {
 .compact-cart fieldset { @apply mt-3 space-y-2; }
 .compact-cart fieldset input,.compact-cart textarea { @apply py-2; }
 .compact-cart .card { @apply p-3; }
+
+/* Larger quantity targets without enlarging every cart card. */
+.counter button {@apply !min-w-[44px] !min-h-[44px];}

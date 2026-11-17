@@ -35,7 +35,7 @@ export default function WaiterApp() {
           <MenuScreen />
         ) : c.page === "cart" ? (
           <CartScreen />
-        ) : c.page === "orders" ? (
+        ) : (c.page === "orders" || c.page === "bookings") ? (
           <OrdersScreen />
         ) : (
           <ReceiptScreen />

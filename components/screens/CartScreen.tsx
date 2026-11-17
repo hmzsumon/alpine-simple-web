@@ -49,7 +49,7 @@ export default function CartScreen() {
       ) : (
         <>
           <fieldset disabled={locked} className="mt-5 space-y-3">{c.draft.salesChannel==="foodpanda"&&!c.draft.orderId&&<label>ফুডপান্ডা অর্ডার নম্বর *<input required maxLength={80} value={c.draft.externalOrderId||""} onChange={e=>c.setCustomer("externalOrderId",e.target.value)}/></label>}
-            {!c.draft.orderId && (
+            {!c.draft.orderId && (<details><summary className="cursor-pointer py-2 text-alpine">কাস্টমারের তথ্য (ঐচ্ছিক)</summary>
               <>
                 <label>
                   কাস্টমারের নাম (ঐচ্ছিক)
@@ -87,7 +87,7 @@ export default function CartScreen() {
                     }}
                   />
                 </label>
-              </>
+              </></details>
             )}
             <label>
               অর্ডারের নির্দেশনা (ঐচ্ছিক)
@@ -119,6 +119,7 @@ export default function CartScreen() {
             <Send size={18} />
             {c.pending ? "সেভ করা অর্ডার আবার পাঠান" : "বুকিং সেভ করুন"}
           </Button>
+          {c.draft.orderId&&!c.pending&&<Button secondary className="w-full mt-3" busy={c.busy} onClick={async()=>{if(await confirmAction("এই বুকিং ডিলিট করবেন?"))void c.send(false,true);}}>বুকিং ডিলিট করুন</Button>}
           {!c.pending&&<Button secondary className="w-full mt-3" busy={c.busy} onClick={async()=>{if(await confirmAction("ফাইনাল করার পরে আর খাবার বদলানো যাবে না। পাঠাবেন?"))void c.send(true);}}>খাওয়া শেষ — ফাইনাল করে ক্যাশিয়ারে পাঠান</Button>}
           <p className="muted flex items-center justify-center gap-2 text-xs mt-3">
             <ShieldCheck size={14} />

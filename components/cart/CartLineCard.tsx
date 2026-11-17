@@ -21,7 +21,7 @@ export default function CartLineCard({ line }: { line: OrderLine }) {
     },
     names = foodNames(line);
   return (
-    <article className="card">
+    <article className="card !p-3">
       <p
         className={
           "text-xs mb-2 " +
@@ -32,7 +32,7 @@ export default function CartLineCard({ line }: { line: OrderLine }) {
       </p>
       <h2 className="font-bold text-base">{names.primary}</h2>
       {names.secondary && <p className="english mt-1">{names.secondary}</p>}
-      <p className="muted text-xs mt-2">
+      <p className="hidden">
         {stationLabel(line.station, c.bootstrap?.kitchens)} · প্রতিটি{" "}
         {money(line.price)}
       </p>
@@ -46,6 +46,7 @@ export default function CartLineCard({ line }: { line: OrderLine }) {
         />
         <strong>{money(line.price * line.quantity)}</strong>
       </div>
+      <details><summary className="cursor-pointer text-xs py-2 text-alpine">পার্সেল / নোট</summary>
       {c.draft.orderType !== "takeaway" && (
         <div className="serving-box">
           <label>
@@ -107,6 +108,7 @@ export default function CartLineCard({ line }: { line: OrderLine }) {
           onChange={(e) => c.noteLine(line.menuId, e.target.value, mode)}
         />
       </label>
+      </details>
     </article>
   );
 }

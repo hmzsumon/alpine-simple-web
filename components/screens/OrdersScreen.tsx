@@ -8,15 +8,16 @@ import { money } from "@/config";
 import { Title, Empty } from "../ui/Primitives";
 export default function OrdersScreen() {
   const c = useWaiterContext();
+  const visible=(c.bootstrap?.orders||[]).filter(o=>c.page==="bookings"?o.bookingState==="booking"&&o.status!=="Cancelled":o.bookingState!=="booking");
   return (
     <section className="page">
       <Title
         eyebrow="আপনার অর্ডারের খবর"
-        title="অর্ডারের তালিকা"
+        title={c.page==="bookings"?"আপনার বুকিং":"অর্ডারের তালিকা"}
         detail="অর্ডার ও বিলের অবস্থা দেখুন।"
       />
       <div className="grid gap-3 mt-5 md:grid-cols-2">
-        {c.bootstrap?.orders.map((o) => (
+        {visible.map((o) => (
           <button
             className="card text-left"
             key={o.id}
@@ -55,7 +56,7 @@ export default function OrdersScreen() {
           </button>
         ))}
       </div>
-      {!c.bootstrap?.orders.length && (
+      {!visible.length && (
         <Empty
           title="কোনো অর্ডারের তালিকা নেই"
           detail="টেবিল বেছে নিয়ে নতুন অর্ডার নিন।"

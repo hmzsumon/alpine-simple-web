@@ -62,7 +62,7 @@ export function useWaiter() {
       if (target) setPage("operations");
       return;
     }
-    setBusy(true);
+
     setError("");
     try {
       const data = await signedApi<Bootstrap>(current, "/api/waiter/bootstrap");
@@ -93,7 +93,7 @@ export function useWaiter() {
         setHydrated("");
       }
     } finally {
-      setBusy(false);
+
     }
   }
   useEffect(() => {
@@ -298,7 +298,7 @@ export function useWaiter() {
   };
 
   /* ────────── persist before sending, then retry exactly the same request ────────── */
-  async function send(finalize=false) {
+  async function send(finalize=false,cancelBooking=false) {
     if(!pending && draft.salesChannel==="foodpanda" && !draft.externalOrderId?.trim()){setError("ফুডপান্ডার আসল অর্ডার নম্বর লিখুন।");return;}
     if (!session || busy || sendingRef.current || !draft.items.length) return;
     sendingRef.current = true;
@@ -310,7 +310,7 @@ export function useWaiter() {
         : "/api/waiter/orders",
       body: {
         orderEpoch: bootstrap?.orderEpoch || 0,
-        booking:true,finalize,bookingRevision:draft.bookingRevision,requestId: uuid(),
+        booking:true,finalize,cancelBooking,bookingRevision:draft.bookingRevision,requestId: uuid(),
         table: draft.table,
         counterId:draft.counterId||bootstrap?.counter?.id||"main",orderType: draft.orderType || "dine_in", salesChannel:draft.salesChannel,externalOrderId:draft.externalOrderId,
         customerName: draft.customerName || "",
@@ -341,7 +341,7 @@ export function useWaiter() {
       setDraft(EMPTY_DRAFT);
       setPending(null);
       setPage("receipt");
-      notify(result.order.bookingState==="booking"?"বুকিং সেভ হয়েছে। নতুন অর্ডার নিতে পারবেন।":"অর্ডার ফাইনাল করে ক্যাশিয়ারের কাছে পাঠানো হয়েছে।");
+      notify(result.order.status==="Cancelled"?"বুকিং ডিলিট হয়েছে। নতুন অর্ডার নিতে পারবেন।":result.order.bookingState==="booking"?"বুকিং সেভ হয়েছে। নতুন অর্ডার নিতে পারবেন।":"অর্ডার ফাইনাল করে ক্যাশিয়ারের কাছে পাঠানো হয়েছে।");
       void refresh(undefined, session);
     } catch (problem) {
       if (
@@ -395,7 +395,7 @@ export function useWaiter() {
     }
     if (next === "menu" && page !== "menu") menuReturn.current = page;
     setPage(next);
-    if (next === "tables" || next === "orders") void refresh(undefined);
+    if (next === "tables" || next === "orders" || next === "bookings") void refresh(undefined);
   }
   const operations = useOperations(
     session,
