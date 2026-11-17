@@ -3,16 +3,17 @@
 import type { ReactNode, ButtonHTMLAttributes } from "react";
 export function Button({
   children,
-  secondary = false,
+  secondary = false,tone,
   busy = false,
   ...p
 }: ButtonHTMLAttributes<HTMLButtonElement> & {
-  secondary?: boolean;
+  secondary?: boolean;tone?:"save"|"confirm"|"menu";
   busy?: boolean;
 }) {
   return (
     <button
       {...p}
+      style={{...p.style,...(tone?{background:({save:"#2563eb",confirm:"#059669",menu:"#7c3aed"})[tone],borderColor:"transparent",color:"white"}:{})}}
       disabled={p.disabled || busy}
       aria-busy={busy||undefined}
       className={

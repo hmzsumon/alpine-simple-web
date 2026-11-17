@@ -106,7 +106,7 @@ export default function CartScreen() {
             </div>
           </div>
           <Button
-            className="w-full mt-5"
+            className="w-full mt-5" tone="save"
             busy={c.busy}
             onClick={async () => {
               if (
@@ -117,10 +117,10 @@ export default function CartScreen() {
             }}
           >
             <Send size={18} />
-            {c.pending ? "সেভ করা অর্ডার আবার পাঠান" : "বুকিং সেভ করুন"}
+            {c.pending ? "সেভ করা অর্ডার আবার পাঠান" : "অর্ডারটি সেভ করুন"}
           </Button>
           {c.draft.orderId&&!c.pending&&<Button secondary className="w-full mt-3" busy={c.busy} onClick={async()=>{if(await confirmAction("এই বুকিং ডিলিট করবেন?"))void c.send(false,true);}}>বুকিং ডিলিট করুন</Button>}
-          {!c.pending&&<Button secondary className="w-full mt-3" busy={c.busy} onClick={async()=>{if(await confirmAction("ফাইনাল করার পরে আর খাবার বদলানো যাবে না। পাঠাবেন?"))void c.send(true);}}>খাওয়া শেষ — ফাইনাল করে ক্যাশিয়ারে পাঠান</Button>}
+          {!c.pending&&<Button tone="confirm" className="w-full mt-3" busy={c.busy} onClick={async()=>{if(await confirmAction("ফাইনাল করার পরে আর খাবার বদলানো যাবে না। পাঠাবেন?"))void c.send(true);}}>অর্ডারটি নিশ্চিত করুন</Button>}
           <p className="muted flex items-center justify-center gap-2 text-xs mt-3">
             <ShieldCheck size={14} />
             পাঠানোর আগে সেভ হয় · একই অনুরোধ দুবার নয়
@@ -128,7 +128,7 @@ export default function CartScreen() {
         </>
       )}
       <Button
-        secondary
+        tone="menu"
         className="w-full mt-5"
         disabled={!!c.pending}
         onClick={() => c.navigate("menu")}
