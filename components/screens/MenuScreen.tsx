@@ -144,6 +144,7 @@ export default function MenuScreen() {
                       return;
                     }
                     c.changeQuantity(item, 1, mode);
+                    setQuery("");setCategory("All");
                   }}
                   disabled={c.busy || !!c.pending}
                 />
