@@ -1,0 +1,2 @@
+import {parseRelease} from "./appRelease";
+export async function latestAppRelease(){const response=await fetch("https://github.com/hmzsumon/alpine-simple-admin/releases/latest/download/update.json",{cache:"no-store",signal:AbortSignal.timeout(15000)});if(!response.ok)throw Error("Latest APK is temporarily unavailable");const text=await response.text();if(text.length>12000)throw Error("Invalid update information");return parseRelease(JSON.parse(text));}
