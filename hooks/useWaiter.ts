@@ -195,11 +195,11 @@ export function useWaiter() {
       setError(
         "Resolve the pending order request before starting another order.",
       );
-      return;
+      return false;
     }
     menuReturn.current = "tables";
     const existing = currentOrder(orderId,bootstrap?.orders,receipt?.order);
-    if(orderId && !existing){setError("বুকিংটি পাওয়া যায়নি। বুকিং তালিকা আবার খুলুন।");return;}
+    if(orderId && !existing){setError("বুকিংটি পাওয়া যায়নি। বুকিং তালিকা আবার খুলুন।");return false;}
     const select = () => {
       // Restore the complete saved booking before moving to its editor.
       setDraft({
@@ -229,9 +229,11 @@ export function useWaiter() {
           { text: "তালিকা মুছে বদলান", style: "destructive", onPress: select },
         ],
       );
+      return false;
     } else if (draft.table === table.id && draft.orderId === orderId && (!salesChannel||draft.salesChannel===salesChannel)) {
       setPage(destination);
     } else select();
+    return true;
   }
   function changeQuantity(
     item: MenuItem,

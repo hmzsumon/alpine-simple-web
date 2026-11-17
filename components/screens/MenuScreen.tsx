@@ -1,8 +1,9 @@
 "use client";
+import {prepareMenu,filterMenu} from "@/utils/menuCatalog";
 import {tableLabel} from "@/utils/halls";
 /* ── Screen: compact native menu; code, Bangla, English and Bengali voice search ── */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowLeft, Search, Mic, ShoppingCart } from "lucide-react";
 import { useWaiterContext } from "@/context/WaiterContext";
 import { useSpeech } from "@/hooks/useSpeech";
@@ -25,20 +26,9 @@ export default function MenuScreen() {
     setQuery(normalizeVoiceSearch(text));
     setCategory("All");
   });
-  const menu = c.bootstrap?.menu || [],
-    items = menu
-      .filter(
-        (i) =>
-          (isCodeQuery(query) ||
-            category === "All" ||
-            i.category === category) &&
-          matchesFood(i, query),
-      )
-      .sort((a, b) =>
-        (a.code || "999999").localeCompare(b.code || "999999", "en", {
-          numeric: true,
-        }),
-      );
+  const menu = c.bootstrap?.menu || [];
+  const catalog=useMemo(()=>prepareMenu(menu),[menu]);
+  const items=useMemo(()=>filterMenu(catalog.items,query,category),[catalog,query,category]);
   const unavailable = query.trim()
     ? c.bootstrap?.unavailableMenu?.filter((i) => matchesFood(i, query)) || []
     : [];
@@ -92,7 +82,7 @@ export default function MenuScreen() {
           </p>
         )}
         <div className="chips compact">
-          {["All", ...new Set(menu.map((i) => i.category))].map((cat) => (
+          {catalog.categories.map((cat) => (
             <button
               key={cat}
               className={category === cat ? "active" : ""}

@@ -14,6 +14,7 @@ export function Button({
     <button
       {...p}
       disabled={p.disabled || busy}
+      aria-busy={busy||undefined}
       className={
         (secondary ? "secondary" : "primary") + " mb-2.5 " + (p.className || "")
       }
