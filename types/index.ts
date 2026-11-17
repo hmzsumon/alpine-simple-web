@@ -37,6 +37,7 @@ export interface MenuItem {
   active: boolean;
 }
 export interface OrderLine {
+ unitPrice?:number;
   fulfillment?: "dine_in" | "parcel";
   nameBn?: string;
   menuId: string;
@@ -115,7 +116,7 @@ export interface Pending {
     table: string;
     items: {
       fulfillment?: "dine_in" | "parcel";
-      menuId: string;
+      unitPrice?:number;menuId: string;
       quantity: number;
       note?: string;
       expectedPrice?: number;
