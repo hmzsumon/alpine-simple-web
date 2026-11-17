@@ -186,7 +186,7 @@ export function useWaiter() {
   }
 
   /* ────────── choose a table or append an additional-items batch ────────── */
-  function chooseTable(table: Table, orderId?: string, salesChannel?:"takeaway"|"foodpanda") {
+  function chooseTable(table: Table, orderId?: string, salesChannel?:"takeaway"|"foodpanda",destination:Page="menu") {
     if (pending) {
       setPage("cart");
       setError(
@@ -195,18 +195,23 @@ export function useWaiter() {
       return;
     }
     menuReturn.current = "tables";
+    const existing = orderId ? bootstrap?.orders.find(o=>o.id===orderId) || (receipt?.order.id===orderId ? receipt.order : undefined) : undefined;
+    if(orderId && !existing){setError("বুকিংটি পাওয়া যায়নি। বুকিং তালিকা আবার খুলুন।");return;}
     const select = () => {
+      // Restore the complete saved booking before moving to its editor.
       setDraft({
-        counterId:(orderId?bootstrap?.orders.find(o=>o.id===orderId)?.simpleCounterId:undefined)||table.counterId||bootstrap?.counter?.id,table: table.id,
-        orderId,
-        salesChannel:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.salesChannel:salesChannel||(table.id==="PARCEL"?"takeaway":"dine_in"),
-        externalOrderId:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.externalOrderId:undefined,
-        orderType: table.id === "PARCEL" ? "takeaway" : "dine_in",
-        bookingRevision:orderId?bootstrap?.orders.find(o=>o.id===orderId)?.bookingRevision:undefined,items: orderId&&bootstrap?.orders.find(o=>o.id===orderId)?.bookingState==="booking"?bootstrap.orders.find(o=>o.id===orderId)!.items:[],
-        note: "",
+        counterId:existing?.simpleCounterId||table.counterId||bootstrap?.counter?.id,
+        table:table.id,orderId,
+        salesChannel:existing?.salesChannel||salesChannel||(table.id==="PARCEL"?"takeaway":"dine_in"),
+        externalOrderId:existing?.externalOrderId,
+        orderType:existing?.orderType||(table.id==="PARCEL"?"takeaway":"dine_in"),
+        bookingRevision:existing?.bookingRevision,
+        items:existing?.bookingState==="booking"?existing.items.map(line=>({...line})):[],
+        customerName:existing?.customerName,customerPhone:existing?.customerPhone,
+        packingCharge:existing?.packingCharge,note:existing?.note||""
       });
       setFulfillment(table.id === "PARCEL" ? "parcel" : "dine_in");
-      setPage("menu");
+      setPage(destination);
       setError("");
     };
     if (
@@ -222,7 +227,7 @@ export function useWaiter() {
         ],
       );
     } else if (draft.table === table.id && draft.orderId === orderId && (!salesChannel||draft.salesChannel===salesChannel)) {
-      setPage("menu");
+      setPage(destination);
     } else select();
   }
   function changeQuantity(
@@ -392,7 +397,7 @@ export function useWaiter() {
   function navigate(next: Page) {
     if ((next === "menu" || next === "cart") && !draft.table) {
       setPage("tables");
-      setError("Start a new order to choose food");
+      setError("খাবার বেছে নিতে আগে হল ও টেবিল নির্বাচন করুন");
       return;
     }
     if (next === "menu" && page !== "menu") menuReturn.current = page;

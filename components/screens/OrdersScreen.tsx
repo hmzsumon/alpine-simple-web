@@ -24,7 +24,7 @@ export default function OrdersScreen() {
             onClick={() => void c.openReceipt(o.id)}
           >
             <div className="flex justify-between items-center">
-              <strong className="text-2xl">{o.parcelToken || (o.table==="WALK-IN"?(o.simpleBillNo||"অর্ডার"):tableLabel(o.table,c.bootstrap?.tables,o))}</strong>
+              <strong className="min-w-0 flex-1 pr-2 text-base leading-6">{o.parcelToken || (o.table==="WALK-IN"?(o.simpleBillNo||"অর্ডার"):tableLabel(o.table,c.bootstrap?.tables,o))}</strong>
               <span
                 className={"pill " + (o.status === "Ready" ? "green" : "amber")}
               >

@@ -18,7 +18,7 @@ export default function BottomNav() {
     <nav className="bottom-nav" aria-label="প্রধান মেনু">
       {tabs.map((t) => {
         const count =
-          t.key === "cart"
+          t.key === "bookings" ? (c.bootstrap?.orders.filter(o=>o.bookingState==="booking"&&o.status!=="Cancelled").length||0):t.key === "cart"
             ? c.quantity
             : t.key === "notifications"
               ? c.operations.unread

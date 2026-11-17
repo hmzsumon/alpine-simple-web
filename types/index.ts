@@ -48,6 +48,7 @@ export interface OrderLine {
   note?: string;
 }
 export interface Order {
+  note?:string;
  bookingState?:"booking"|"final";bookingRevision?:number;
   simpleCounterId?:string;hallId?:string;hallName?:string;tableName?:string;
   salesChannel?:"dine_in"|"takeaway"|"foodpanda";externalOrderId?:string;simpleBillNo?:string;

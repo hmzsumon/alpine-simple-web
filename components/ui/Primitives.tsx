@@ -15,7 +15,7 @@ export function Button({
       {...p}
       disabled={p.disabled || busy}
       className={
-        (secondary ? "secondary" : "primary") + " " + (p.className || "")
+        (secondary ? "secondary" : "primary") + " mb-2.5 " + (p.className || "")
       }
     >
       {busy ? "অপেক্ষা করুন…" : children}
