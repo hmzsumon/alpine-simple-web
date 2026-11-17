@@ -1,4 +1,6 @@
 "use client";
+import {currentOrder} from "../utils/currentOrder";
+
 import {isFishCategory} from "../utils/fishPricing";
 import {notify} from "@/lib/feedback";
 /* ────────── imports ────────── */
@@ -195,7 +197,7 @@ export function useWaiter() {
       return;
     }
     menuReturn.current = "tables";
-    const existing = orderId ? bootstrap?.orders.find(o=>o.id===orderId) || (receipt?.order.id===orderId ? receipt.order : undefined) : undefined;
+    const existing = currentOrder(orderId,bootstrap?.orders,receipt?.order);
     if(orderId && !existing){setError("বুকিংটি পাওয়া যায়নি। বুকিং তালিকা আবার খুলুন।");return;}
     const select = () => {
       // Restore the complete saved booking before moving to its editor.
@@ -345,6 +347,7 @@ export function useWaiter() {
       pendingRef.current = null;
       await storage.saveDraft(session.user.id, EMPTY_DRAFT, null);
       setReceipt(result);
+      setBootstrap(current=>current?{...current,orders:current.orders.some(o=>o.id===result.order.id)?current.orders.map(o=>o.id===result.order.id?result.order:o):[result.order,...current.orders]}:current);
       setDraft(EMPTY_DRAFT);
       setPending(null);
       setPage("receipt");
@@ -385,6 +388,7 @@ export function useWaiter() {
         "/api/waiter/orders/" + encodeURIComponent(id),
       );
       setReceipt(result);
+      setBootstrap(current=>current?{...current,orders:current.orders.some(o=>o.id===result.order.id)?current.orders.map(o=>o.id===result.order.id?result.order:o):[result.order,...current.orders]}:current);
       setPage("receipt");
     } catch (problem) {
       setError(
