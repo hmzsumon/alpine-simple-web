@@ -1,4 +1,5 @@
 "use client";
+import {isParcelStaff} from "../utils/parcelStaff";
 import {currentOrder} from "../utils/currentOrder";
 
 import {isFishCategory} from "../utils/fishPricing";
@@ -401,7 +402,7 @@ export function useWaiter() {
   function navigate(next: Page) {
     if ((next === "menu" || next === "cart") && !draft.table) {
       setPage("tables");
-      setError("খাবার বেছে নিতে আগে হল ও টেবিল নির্বাচন করুন");
+      setError(isParcelStaff(session?.user)?"আগে নতুন পার্সেল অর্ডার শুরু করুন":"খাবার বেছে নিতে আগে হল ও টেবিল নির্বাচন করুন");
       return;
     }
     if (next === "menu" && page !== "menu") menuReturn.current = page;

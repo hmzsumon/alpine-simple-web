@@ -1,5 +1,7 @@
 /* ────────── role-dependent web navigation; every data/action is still authorized by the API ────────── */
 "use client";
+import {isParcelStaff} from "@/utils/parcelStaff";
+import ParcelCounter from "../screens/ParcelCounter";
 import {useEffect} from "react";
 import {notify} from "@/lib/feedback";
 import { X, LoaderCircle } from "lucide-react";
@@ -30,7 +32,7 @@ export default function WaiterApp() {
       {c.page !== "menu" && <AppHeader />}
       <div className="screen-area">
         {c.page === "tables" ? (
-          <TablesScreen />
+          isParcelStaff(c.session.user)?<ParcelCounter />:<TablesScreen />
         ) : c.page === "menu" ? (
           <MenuScreen />
         ) : c.page === "cart" ? (
