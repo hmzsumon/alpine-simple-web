@@ -3,7 +3,7 @@ import {prepareMenu,filterMenu} from "@/utils/menuCatalog";
 import {tableLabel} from "@/utils/halls";
 /* ── Screen: compact native menu; code, Bangla, English and Bengali voice search ── */
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ArrowLeft, Search, Mic, ShoppingCart } from "lucide-react";
 import { useWaiterContext } from "@/context/WaiterContext";
 import { useSpeech } from "@/hooks/useSpeech";
@@ -13,11 +13,14 @@ import {
   bnDigits,
   foodNames,
 } from "@/utils/menuNames";
-import { isCodeQuery, normalizeVoiceSearch } from "@/utils/menuSearch";
+import { normalizeVoiceSearch } from "@/utils/menuSearch";
 import { money } from "@/config";
 import { Counter, Empty } from "../ui/Primitives";
+import {menuQuantityChanges} from "@/utils/menuQuantity";
+import MenuQuantityEntry from "../menu/MenuQuantityEntry";
 import VoiceOrderDialog from "../voice/VoiceOrderDialog";
 export default function MenuScreen() {
+  const search=useRef<HTMLInputElement>(null);
   const c = useWaiterContext(),
     [query, setQuery] = useState(""),
     [category, setCategory] = useState("All"),
@@ -32,6 +35,14 @@ export default function MenuScreen() {
   const unavailable = query.trim()
     ? c.bootstrap?.unavailableMenu?.filter((i) => matchesFood(i, query)) || []
     : [];
+  const confirmQuantity=(item:Parameters<typeof c.changeQuantity>[0],target:number)=>{
+    if(c.busy||c.pending)return false;
+    const selected=c.draft.items.filter(line=>line.menuId===item.id),current=selected.reduce((n,line)=>n+line.quantity,0);
+    if(!selected.length&&c.draft.items.length>=80){c.setError('সর্বোচ্চ ৮০টি আলাদা খাবার নেওয়া যাবে।');return false;}
+    const stock=c.bootstrap?.stockSummary?.[item.id];if(target>current&&stock&&(!stock.available||(stock.quantity!==null&&stock.quantity!==undefined&&target>stock.quantity))){c.setError('এই পরিমাণ খাবার এখন স্টকে নেই।');return false;}
+    for(const change of menuQuantityChanges(selected,target,c.draft.orderType==='takeaway'?'parcel':'dine_in'))c.changeQuantity(item,change.delta,change.mode);
+    setQuery('');setCategory('All');search.current?.focus();return true;
+  };
   return (
     <section className="menu-screen">
       <div className="menu-top">
@@ -53,6 +64,8 @@ export default function MenuScreen() {
           <div className="search">
             <Search size={16} />
             <input
+              ref={search}
+              onFocus={e=>e.currentTarget.select()}
               aria-label="খাবারের নাম বা কোড খুঁজুন"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -110,7 +123,7 @@ export default function MenuScreen() {
             return (
               <article
                 key={item.id}
-                className={"menu-row " + (quantity ? "selected" : "")}
+                className={"menu-row " + (quantity ? "selected" : "")+(query.trim()?" flex-wrap":"")}
               >
                 <div className="min-w-0 flex-1">
                   <p className="food-name">
@@ -129,7 +142,7 @@ export default function MenuScreen() {
                   )}
                 </div>
                 <strong className="price">{money(item.price)}</strong>
-                <Counter
+                {query.trim()?<MenuQuantityEntry name={names.primary} quantity={quantity} disabled={c.busy||!!c.pending} onConfirm={target=>confirmQuantity(item,target)}/>:<Counter
                   name={names.primary}
                   value={quantity}
                   minus={() => c.changeQuantity(item, -1, minusMode)}
@@ -144,10 +157,9 @@ export default function MenuScreen() {
                       return;
                     }
                     c.changeQuantity(item, 1, mode);
-                    setQuery("");setCategory("All");
                   }}
                   disabled={c.busy || !!c.pending}
-                />
+                />}
               </article>
             );
           })}
