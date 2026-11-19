@@ -2,7 +2,7 @@
 import {isParcelStaff} from "../utils/parcelStaff";
 import {currentOrder} from "../utils/currentOrder";
 
-import {isFishCategory} from "../utils/fishPricing";
+import {canSetOrderPrice} from "../utils/orderPricing";
 import {notify} from "@/lib/feedback";
 /* ────────── imports ────────── */
 import { useEffect, useState, useRef } from "react";
@@ -289,7 +289,7 @@ export function useWaiter() {
       };
     });
   }
-  const setFishPrice=(id:string,mode:"dine_in"|"parcel",value:string)=>{if(pending||busy)return;const item=bootstrap?.menu.find(m=>m.id===id);if(!item||!isFishCategory(item.category))return;const normalized=value.replace(/[০-৯]/g,c=>String("০১২৩৪৫৬৭৮৯".indexOf(c))),price=Number(normalized);if(!/^\d+(?:\.\d{1,2})?$/.test(normalized)||price<=0||price>1000000){setDraft(current=>({...current,items:current.items.map(l=>l.menuId===id&&(l.fulfillment||"dine_in")===mode?{...l,price:0,unitPrice:0}:l)}));return;}setDraft(current=>({...current,items:current.items.map(l=>l.menuId===id&&(l.fulfillment||"dine_in")===mode?{...l,price,unitPrice:price}:l)}));};
+  const setOrderPrice=(id:string,mode:"dine_in"|"parcel",value:string)=>{if(pending||busy)return;const item=bootstrap?.menu.find(m=>m.id===id);if(!item||!canSetOrderPrice(item))return;const normalized=value.replace(/[০-৯]/g,c=>String("০১২৩৪৫৬৭৮৯".indexOf(c))),price=Number(normalized);if(!/^\d+(?:\.\d{1,2})?$/.test(normalized)||price<=0||price>1000000){setDraft(current=>({...current,items:current.items.map(l=>l.menuId===id&&(l.fulfillment||"dine_in")===mode?{...l,price:0,unitPrice:0}:l)}));return;}setDraft(current=>({...current,items:current.items.map(l=>l.menuId===id&&(l.fulfillment||"dine_in")===mode?{...l,price,unitPrice:price}:l)}));};
   const noteLine = (
     id: string,
     note: string,
@@ -501,7 +501,7 @@ export function useWaiter() {
     refresh,
     chooseTable,
     changeQuantity,
-    noteLine,setFishPrice,
+    noteLine,setOrderPrice,
     orderNote,
     send,
     openReceipt,

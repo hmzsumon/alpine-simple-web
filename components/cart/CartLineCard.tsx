@@ -1,5 +1,5 @@
 "use client";
-import {isFishCategory} from "@/utils/fishPricing";
+import {canSetOrderPrice} from "@/utils/orderPricing";
 import { useState } from "react";
 import { useWaiterContext } from "@/context/WaiterContext";
 import type { OrderLine, MenuItem } from "@/types";
@@ -21,7 +21,7 @@ export default function CartLineCard({ line }: { line: OrderLine }) {
       active: true,
     },
     names = foodNames(line);
-  const [fishPriceText,setFishPriceText]=useState(String(line.price||""));
+  const [orderPriceText,setOrderPriceText]=useState(String(line.price||""));
   return (
     <article className="card !p-3">
       <p
@@ -48,7 +48,7 @@ export default function CartLineCard({ line }: { line: OrderLine }) {
         />
         <strong>{money(line.price * line.quantity)}</strong>
       </div>
-      {isFishCategory(c.bootstrap?.menu.find(m=>m.id===line.menuId)?.category||"")&&<label className="text-xs">এই মাছের দাম (৳)<input type="number" min="0.01" step="0.01" value={fishPriceText} onChange={e=>{setFishPriceText(e.target.value);c.setFishPrice(line.menuId,mode,e.target.value);}} disabled={locked}/></label>}
+      {canSetOrderPrice(c.bootstrap?.menu.find(m=>m.id===line.menuId))&&<label className="text-xs">এই অর্ডারের দাম (৳)<input type="number" min="0.01" step="0.01" value={orderPriceText} onChange={e=>{setOrderPriceText(e.target.value);c.setOrderPrice(line.menuId,mode,e.target.value);}} disabled={locked}/></label>}
       <details><summary className="cursor-pointer text-xs py-2 text-alpine">পার্সেল / নোট</summary>
       {c.draft.orderType !== "takeaway" && (
         <div className="serving-box">
